@@ -5,49 +5,180 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Моё Портфолио</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #121212;
+            background: radial-gradient(circle at top, #1d1b2e 0%, #121212 60%);
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            padding: 32px 16px;
         }
+
+        .hero {
+            text-align: center;
+            max-width: 640px;
+            margin-bottom: 28px;
+        }
+
         h1 {
             font-size: 3rem;
-            margin-bottom: 10px;
+            margin: 0 0 10px;
+            letter-spacing: -0.5px;
         }
-        p {
-            color: #aaaaaa;
-            margin-bottom: 30px;
-            font-size: 1.2rem;
+
+        p.subtitle {
+            color: #b0b0be;
+            margin: 0;
+            font-size: 1.15rem;
         }
+
+        .tree {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 680px;
+        }
+
+        .root-node {
+            background: #1e1e26;
+            border: 1px solid #3c3a52;
+            color: #f3f2ff;
+            padding: 12px 24px;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        }
+
+        .trunk {
+            width: 2px;
+            height: 28px;
+            background: linear-gradient(to bottom, #5a5585, #3a3a44);
+        }
+
+        .branches {
+            position: relative;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+            padding-top: 24px;
+        }
+
+        .branches::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 25%;
+            right: 25%;
+            height: 2px;
+            background: #3a3a44;
+        }
+
+        .branch {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1 1 240px;
+            max-width: 300px;
+        }
+
+        .branch::before {
+            content: "";
+            position: absolute;
+            top: -24px;
+            width: 2px;
+            height: 24px;
+            background: #3a3a44;
+        }
+
         .btn {
-            background-color: #2a2a2a;
-            color: white;
-            padding: 15px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            width: 100%;
+            background-color: #222229;
+            color: #ffffff;
+            padding: 16px 22px;
             text-decoration: none;
-            border-radius: 12px;
-            font-weight: bold;
-            transition: 0.3s;
-            border: 1px solid #444;
+            border-radius: 14px;
+            font-weight: 600;
+            transition: 0.25s ease;
+            border: 1px solid #3b3b47;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
         }
+
         .btn:hover {
-            background-color: #444;
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
+            background-color: #2d2d38;
+            border-color: #6f68b8;
+            box-shadow: 0 10px 26px rgba(111, 104, 184, 0.22);
+            transform: translateY(-3px);
+        }
+
+        .btn-label {
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: #a4a0c9;
+            letter-spacing: 0.2px;
+        }
+
+        @media (max-width: 560px) {
+            h1 {
+                font-size: 2.3rem;
+            }
+            .branches {
+                flex-direction: column;
+                align-items: center;
+                padding-top: 0;
+                gap: 14px;
+            }
+            .branches::before,
+            .branch::before {
+                display: none;
+            }
+            .branch {
+                max-width: 100%;
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
 
-    <h1>Давид</h1>
-    <p>Создаю Telegram-ботов и веб-сайты</p>
+    <div class="hero">
+        <h1>Давид</h1>
+        <p class="subtitle">Создаю Telegram-ботов и веб-сайты</p>
+    </div>
 
-    <a href="https://github.com/vilkatanos456-commits/School_bot" class="btn" target="_blank">Мой проект: School_bot</a>
+    <div class="tree">
+        <div class="root-node">Проекты</div>
+        <div class="trunk"></div>
+        <div class="branches">
+            <div class="branch">
+                <a href="https://github.com/vilkatanos456-commits/School_bot" class="btn" target="_blank" rel="noopener">
+                    <span>School_bot</span>
+                </a>
+            </div>
+            <div class="branch">
+                <a href="https://github.com/vilkatanos456-commits/beee" class="btn" target="_blank" rel="noopener">
+                    <span>beee</span>
+                    <span class="btn-label">роблокс ники</span>
+                </a>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
