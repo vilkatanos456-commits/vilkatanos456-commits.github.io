@@ -1,5 +1,6 @@
 import os
 import json
+import asyncio
 from telegram import ReplyKeyboardMarkup, Update
 from telegram.ext import (
     ApplicationBuilder,
@@ -374,6 +375,43 @@ async def portal2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 async def legolego(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(
         f'LEGO Star Wars: The Skywalker Saga — веселий екшн-адвенчура за всіма фільмами Star Wars. Відмінно підходить для гри з друзями. {update.effective_user.first_name}!')
+
+
+def check_roblox_username(username: str):
+    """Публичный API Roblox: пустой список = ник свободен."""
+    import urllib.request
+
+    payload = json.dumps({"usernames": [username], "excludeBannedUsers": False}).encode("utf-8")
+    req = urllib.request.Request(
+        "https://users.roblox.com/v1/usernames/users",
+        data=payload,
+        headers={"Content-Type": "application/json", "User-Agent": "Mozilla/5.0"},
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+    except Exception as exc:
+        return "error", f"⚠️ Roblox не ответил: {exc}"
+
+    if data.get("data"):
+        return "taken", f"❌ Ник «{username}» занят"
+    return "free", f"✅ Ник «{username}» свободен"
+
+
+async def roblox(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Проверка занятости ника: /roblox <ник>."""
+    args = context.args or []
+    if not args:
+        await update.message.reply_text(
+            "🕹️ Roblox\n\nПроверка ника: /roblox <ник>\nНапример: /roblox builderman"
+        )
+        return
+    username = args[0].strip()
+    if not (3 <= len(username) <= 20) or not username.isalnum():
+        await update.message.reply_text("Ник: 3–20 символов, только латиница и цифры.")
+        return
+    _status, message = await asyncio.to_thread(check_roblox_username, username)
+    await update.message.reply_text(message, reply_markup=get_games_keyboard())
 
 
 async def handle_text_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
