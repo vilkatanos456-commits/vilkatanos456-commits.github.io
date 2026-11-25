@@ -1,0 +1,604 @@
+import os
+import json
+from telegram import ReplyKeyboardMarkup, Update
+from telegram.ext import (
+    ApplicationBuilder,
+    CommandHandler,
+    ContextTypes,
+    MessageHandler,
+    filters,
+)
+
+TOKEN = os.environ.get("BOT_TOKEN", "")
+
+
+def get_city_keyboard():
+    keyboard = [
+        ["🚌 Транспорт", "🗺️ Місця"],
+        ["☕️ Кафе", "🌳 Парки"],
+        ["🎮 Ігри", "❓ Допомога"]
+    ]
+    return ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+
+
+def get_games_keyboard():
+    keyboard = [
+        ["🕹️ CS2", "🕹️ Half-Life", "🕹️ GD"],
+        ["🕹️ Roblox", "🤖 ChatGPT"],
+        ["🏠 Головне меню"]
+    ]
+    return ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+
+
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Привіт! Я твій персональний гід по Вінниці. Обирай, що тебе цікавить, {update.effective_user.first_name}!',
+        reply_markup=get_city_keyboard()
+    )
+
+
+async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    commands_list = (
+        '🗺️ **Основні команди:**\n'
+        '/start, /help (або /gid), /transport, /places, /cafe, /park, /raw_list (повний список ігор).\n\n'
+        '🎮 **Команди Ігор (Приклади):**\n'
+        '/roblox, /chatgpt, /cs2, /half_life, /tetris...\n'
+    )
+    await update.message.reply_text(f'{commands_list}\n\n{update.effective_user.first_name}, ось всі команди!')
+
+
+async def gid(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await help_command(update, context)
+
+
+async def commands(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    full_command_list = (
+        "**🗺️ Основні команди:**\n"
+        "/start, /help, /gid, /transport, /places, /cafe, /park, /raw_list\n\n"
+        "**🎮 Повний Список 50 Ігор (для інфо):**\n"
+        "/cs2, /half_life, /tetris, /starcraft2, /doom_eternal, /hollowknight, /celeste, /ori, /shovel_knight, /gd,\n"
+        "/witcher3, /cyberpunk2077, /eldenring, /balders_gate3, /skyrim, /mass_effect, /final_fantasy16, /diablo4, /pathofexile, /genshin_impact,\n"
+        "/gta5, /reddead2, /godofwar, /spiderman2, /lastofus, /uncharted4, /horizon_zero_dawn, /residentevil4, /silent_hill2, /bioshock,\n"
+        "/disco_elysium, /minecraft, /terraria, /stardewvalley, /factorio, /subnautica, /animal_crossing, /overwatch2, /apex_legends, /valorant,\n"
+        "/fortnite, /destiny2, /leagueoflegends, /dota2, /fifa25, /nba2k25, /roblox, /chatgpt, /portal, /portal2, /legolego\n\n"
+        "**Інше:** /Hi"
+    )
+    await update.message.reply_text(f'{full_command_list}\n\n{update.effective_user.first_name}, ось всі команди!')
+
+
+async def transport(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Вінницький транспорт (трамваї, тролейбуси, автобуси) працює приблизно з 5:30–6:00 до 22:00. '
+        f'Найнадійніші — трамваї № 1, 4, 6 (інтервал 9–20 хв) і тролейбуси № 3, 4 (12–16 хв). '
+        f'Розклад дивіться на сайті vn.rozklad.in.ua. Найкращий розклад для тебе, {update.effective_user.first_name}!'
+    )
+
+
+async def places(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'1. Фонтан Roshen 2. Водонапірна вежа (Вежа Артінова) 3. Музей-садиба М. І. Пирогова 4. Центральний міський парк. {update.effective_user.first_name}')
+
+
+async def cafe(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'1. Золотий Дюкат, Хмельницьке шосе, 20 2. Bigman Coffee, вул. Пирогова 42 3. Sharikava 4. Coffee Rite 5. ULYCH, вул. Соловйова, 3. {update.effective_user.first_name}')
+
+
+async def park(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'🌳 Центральний міський парк ім. М. Леонтовича,🦆 Вишенський парк,🩺 Меморіальний парк-садиба М. І. Пирогова,Парк "Поділля",Парк ім. А. І. Ющенка. {update.effective_user.first_name}')
+
+
+async def show_games_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        "Обери, про яку гру ти хочеш дізнатися:",
+        reply_markup=get_games_keyboard()
+    )
+
+
+async def go_to_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        "Повернення до головного меню міста. Обирай:",
+        reply_markup=get_city_keyboard()
+    )
+
+
+async def Hi(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(f'Hi! student {update.effective_user.first_name}')
+
+
+async def raw_game_names(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    games_list = [
+        "cs2", "half_life", "tetris", "starcraft2", "doom_eternal", "hollowknight", "celeste", "ori", "shovel_knight",
+        "gd", "witcher3", "cyberpunk2077", "eldenring", "balders_gate3", "skyrim", "mass_effect", "final_fantasy16",
+        "diablo4", "pathofexile", "genshin_impact", "gta5", "reddead2", "godofwar", "spiderman2", "lastofus",
+        "uncharted4", "horizon_zero_dawn", "residentevil4", "silent_hill2", "bioshock", "disco_elysium", "minecraft",
+        "terraria", "stardewvalley", "factorio", "subnautica", "animal_crossing", "overwatch2", "apex_legends",
+        "valorant", "fortnite", "destiny2", "leagueoflegends", "dota2", "fifa25", "nba2k25", "roblox", "chatgpt",
+        "portal", "portal2", "legolego"
+    ]
+    all_game_names_string = "\n".join([f'/{game}' for game in games_list])
+
+    await update.message.reply_text(
+        f'🎮 **Повний список команд для ігор:**\n\n'
+        f'{all_game_names_string}\n\n'
+        f'Це всі ігри, {update.effective_user.first_name}'
+    )
+
+
+async def chatgpt(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'ChatGPT (Generative Pre-trained Transformer) — це чат-бот та віртуальний асистент зі статичними відповідями у цьому боті. {update.effective_user.first_name}, раджу тобі тому що завжди потрібна якась інформація😁')
+
+
+async def cs2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'CS2 (Counter-Strike 2) — тактичний шутер від Valve. Оновлення CS:GO на Source 2. Хто любить постріляти, зайде ця гра! {update.effective_user.first_name}!')
+
+
+async def half_life(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Half-Life — легендарна серія шутерів. Інноваційний сюжет без катсцен. Дуже прикольна, хоч і старенька, справжня класика! {update.effective_user.first_name}!')
+
+
+async def tetris(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Tetris — вічний шедевр, де фігури падають, а ви намагаєтеся скласти їх у лінії. Проста ідея, але змушує мозок працювати на повну! {update.effective_user.first_name}!')
+
+
+async def starcraft2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'StarCraft 2 — еталон стратегії в реальному часі (RTS). Потрібен гострий розум, щоб керувати арміями терранів, зергів та протоссів. Справжній тест на швидкість мислення! {update.effective_user.first_name}!')
+
+
+async def doom_eternal(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'DOOM Eternal — швидкий, агресивний шутер, де ви — мисливець на демонів. Це чистий адреналін і постійний рух. "Ріж і рви, поки це не буде зроблено!" {update.effective_user.first_name}!')
+
+
+async def hollowknight(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Hollow Knight — метроідванія з глибокою, меланхолійною атмосферою та складними боями. Світ жуків і лицарів — справжній шедевр! {update.effective_user.first_name}!')
+
+
+async def celeste(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Celeste — неймовірно складний, але винагороджуючий платформер про дівчину, яка підкорює гору. Історія про боротьбу з собою — дуже надихає! {update.effective_user.first_name}!')
+
+
+async def ori(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Ori and the Blind Forest — візуально приголомшливий платформер про маленьку дух-хранительку. Красива, але дуже емоційна гра! {update.effective_user.first_name}!')
+
+
+async def shovel_knight(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Shovel Knight — данина поваги класиці 8-бітних ігор. Простий, але захоплюючий геймплей з лопатою! {update.effective_user.first_name}!')
+
+
+async def gd(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Geometry Dash — інді-гра, поєднує платформер і ритм-гру. Гравець керує кубом. Ця гра не дуже цікава там більш для про-гравців. {update.effective_user.first_name}!')
+
+
+async def witcher3(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'The Witcher 3: Wild Hunt — епічна RPG про Ґеральта з Рівії. Це один із найкращих відкритих світів. Гра, у яку треба грати обов\'язково! {update.effective_user.first_name}!')
+
+
+async def cyberpunk2077(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Cyberpunk 2077 — амбітна RPG у неоновому Найт-Сіті. Історія про біочіпи та безсмертя. Неймовірно атмосферно! {update.effective_user.first_name}!')
+
+
+async def eldenring(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Elden Ring — RPG у жанрі Souls з величезним відкритим світом. Тут кожен бос — це справжній виклик. Дуже складна, але нагорода того варта! {update.effective_user.first_name}!')
+
+
+async def balders_gate3(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Baldur\'s Gate 3 — класична фентезійна RPG на основі D&D. Масштабна історія, глибокі діалоги та покрокові бої. Відчуй себе справжнім майстром підземель! {update.effective_user.first_name}!')
+
+
+async def skyrim(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Skyrim (The Elder Scrolls V) — величезний відкритий світ, де можна бути ким завгодно. Легендарна гра, у яку можна грати вічно! {update.effective_user.first_name}!')
+
+
+async def mass_effect(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Mass Effect — науково-фантастична RPG про командора Шепарда та порятунок галактики. Фантастична історія та найкращі напарники в ігровій історії! {update.effective_user.first_name}!')
+
+
+async def final_fantasy16(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Final Fantasy 16 — епічна японська RPG із захоплюючими боями в реальному часі. Дуже кінематографічна та драматична! {update.effective_user.first_name}!')
+
+
+async def diablo4(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Diablo 4 — ізометрична екшн-RPG про боротьбу з Ліліт. Це темна, атмосферна та дуже затягуюча гра про фарм спорядження. {update.effective_user.first_name}!')
+
+
+async def pathofexile(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Path of Exile — безкоштовна хардкорна екшн-RPG, відома своєю неймовірно глибокою системою розвитку персонажа. Якщо любиш складність, це для тебе! {update.effective_user.first_name}!')
+
+
+async def genshin_impact(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Genshin Impact — відкритий світ у стилі аніме з елементами гача та RPG. Фантастично красива та захоплююча, хоч і вимагає часу. {update.effective_user.first_name}!')
+
+
+async def gta5(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Grand Theft Auto V (GTA V) — культовий відкритий світ про кримінальні пригоди в Лос-Сантосі. Свобода дій тут просто неймовірна! {update.effective_user.first_name}!')
+
+
+async def reddead2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Red Dead Redemption 2 — епічна пригода на Дикому Заході. Гра про Артура Моргана, що вражає увагою до деталей. Справжній шедевр! {update.effective_user.first_name}!')
+
+
+async def godofwar(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'God of War (2018) — історія про Кратоса та його сина Атрея в скандинавській міфології. Фантастичні бої та зворушливий сюжет. {update.effective_user.first_name}!')
+
+
+async def spiderman2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Spider-Man 2 — стань Людиною-павуком у Нью-Йорку. Польоти на павутині та динамічні бої — це чисте задоволення! {update.effective_user.first_name}!')
+
+
+async def lastofus(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'The Last of Us — драматична історія виживання у світі, охопленому пандемією. Це не просто гра, це емоційна подорож. {update.effective_user.first_name}!')
+
+
+async def uncharted4(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Uncharted 4: A Thief\'s End — пригодницький екшн-фільм, у який можна грати. Полювання на скарби з Нейтаном Дрейком — завжди весело! {update.effective_user.first_name}!')
+
+
+async def horizon_zero_dawn(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Horizon Zero Dawn — відкритий світ, де люди полюють на механічних динозаврів. Дуже оригінальна та красива гра! {update.effective_user.first_name}!')
+
+
+async def residentevil4(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Resident Evil 4 (Remake) — класика жанру Survival Horror. Напружений геймплей та постійне відчуття небезпеки. Для міцних нервів! {update.effective_user.first_name}!')
+
+
+async def silent_hill2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Silent Hill 2 — психологічний хорор, який вважається одним із найкращих в історії. Глибока, моторошна історія, що змушує думати. {update.effective_user.first_name}!')
+
+
+async def bioshock(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'BioShock — шутер з унікальною філософією в підводному місті Схід. "Чи не є людина рабом?" — ця гра змушує задуматися! {update.effective_user.first_name}!')
+
+
+async def disco_elysium(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Disco Elysium — інноваційна RPG без боїв, де ви — детектив, який бореться зі своїм внутрішнім світом. Чистий текст і філософія — геніально! {update.effective_user.first_name}!')
+
+
+async def minecraft(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Minecraft — гра про будівництво, дослідження та виживання. Свобода творчості тут не має меж! {update.effective_user.first_name}!')
+
+
+async def terraria(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Terraria — 2D-аналог Minecraft, але з набагато більшим акцентом на босах, зброї та дослідженні. Справжній копач скарбів! {update.effective_user.first_name}!')
+
+
+async def stardewvalley(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Stardew Valley — симулятор життя на фермі. Вирощування врожаю, риболовля, спілкування з жителями. Ідеально для розслаблення! {update.effective_user.first_name}!')
+
+
+async def factorio(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Factorio — стратегія про будівництво автоматизованих фабрик. Дуже затягує! {update.effective_user.first_name}!')
+
+
+async def subnautica(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Subnautica — виживання в океані на чужій планеті. Дослідження морських глибин, повних небезпек. {update.effective_user.first_name}!')
+
+
+async def animal_crossing(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Animal Crossing — симулятор безтурботного життя на острові з милими тваринами-сусідами. Ідеальний антистрес. {update.effective_user.first_name}!')
+
+
+async def overwatch2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Overwatch 2 — командний шутер 5v5 з унікальними героями. Постійний рух і командна робота — це ключ до перемоги. {update.effective_user.first_name}!')
+
+
+async def apex_legends(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Apex Legends — динамічна королівська битва. Дуже швидкий геймплей та унікальні здібності персонажів. {update.effective_user.first_name}!')
+
+
+async def valorant(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Valorant — тактичний командний шутер 5v5, схожий на CS, але з унікальними "агентами". Вимагає точності та стратегії! {update.effective_user.first_name}!')
+
+
+async def fortnite(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Fortnite — найпопулярніша королівська битва з елементами будівництва. {update.effective_user.first_name}!')
+
+
+async def destiny2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Destiny 2 — масивний онлайн-шутер від першої особи з елементами RPG. Дослідження космосу, місії та лут. {update.effective_user.first_name}!')
+
+
+async def leagueoflegends(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'League of Legends (LoL) — найпопулярніша MOBA-гра 5v5. Складна, але дуже захоплююча командна гра. {update.effective_user.first_name}!')
+
+
+async def dota2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Dota 2 — ще одна класика MOBA-жанру. Справжня перевірка стратегічного мислення та координації команди. {update.effective_user.first_name}!')
+
+
+async def fifa25(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'EA Sports FC (раніше FIFA) — найкращий симулятор футболу. Реалістична графіка. {update.effective_user.first_name}!')
+
+
+async def nba2k25(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'NBA 2K — провідний симулятор баскетболу. Відчуй себе на паркеті НБА. {update.effective_user.first_name}!')
+
+
+async def portal(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Portal — унікальна головоломка від першої особи. Геніальна механіка та чудовий чорний гумор. {update.effective_user.first_name}!')
+
+
+async def portal2(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'Portal 2 — продовження з ще більшими головоломками та кооперативним режимом. Неймовірний сюжет та озвучка! {update.effective_user.first_name}!')
+
+
+async def legolego(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        f'LEGO Star Wars: The Skywalker Saga — веселий екшн-адвенчура за всіма фільмами Star Wars. Відмінно підходить для гри з друзями. {update.effective_user.first_name}!')
+
+
+async def handle_text_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    text = update.message.text
+
+    if text == "🚌 Транспорт":
+        await transport(update, context)
+    elif text == "🗺️ Місця":
+        await places(update, context)
+    elif text == "☕️ Кафе":
+        await cafe(update, context)
+    elif text == "🌳 Парки":
+        await park(update, context)
+    elif text == "❓ Допомога":
+        await help_command(update, context)
+    elif text == "🎮 Ігри":
+        await show_games_menu(update, context)
+    elif text == "🏠 Головне меню":
+        await go_to_main_menu(update, context)
+    elif text == "🕹️ CS2":
+        await cs2(update, context)
+    elif text == "🕹️ Half-Life":
+        await half_life(update, context)
+    elif text == "🕹️ GD":
+        await gd(update, context)
+    elif text == "🕹️ Roblox":
+        await roblox(update, context)
+    elif text == "🤖 ChatGPT":
+        await chatgpt(update, context)
+    else:
+        await update.message.reply_text(
+            f"Я не розумію команду '{text}'. Спробуй обрати щось із меню або натисни /start.",
+            reply_markup=get_city_keyboard()
+        )
+
+
+async def text(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    text = update.message.text
+    await update.message.reply_text(f'park {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'transport {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'places {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'cafe {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'help {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'gid {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'half_life {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'gd {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'Hi {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'chatgpt {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'roblox {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'cs2 {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'commands {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'tetris {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'starcraft2 {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'doom_eternal {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'hollowknight {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'celeste {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'ori {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'shovel_knight {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'witcher3 {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'cyberpunk2077 {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'eldenring {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'balders_gate3 {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'skyrim {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'mass_effect {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'final_fantasy16 {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'diablo4 {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'pathofexile {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'genshin_impact {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'gta5 {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'reddead2 {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'godofwar {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'spiderman2 {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'lastofus {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'uncharted4 {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'horizon_zero_dawn {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'residentevil4 {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'silent_hill2 {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'bioshock {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'disco_elysium {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'minecraft {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'terraria {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'stardewvalley {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'factorio {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'subnautica {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'animal_crossing {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'overwatch2 {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'apex_legends {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'valorant {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'fortnite {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'destiny2 {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'leagueoflegends {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'dota2 {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'fifa25 {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'nba2k25 {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'portal {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'portal2 {update.effective_user.first_name}')
+    text = update.message.text
+    await update.message.reply_text(f'legolego {update.effective_user.first_name}')
+    text = update.message.text
+
+
+if __name__ == '__main__':
+    app = ApplicationBuilder().token(TOKEN).build()
+
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("help", help_command))
+    app.add_handler(CommandHandler("gid", help_command))
+    app.add_handler(CommandHandler("commands", commands))
+    app.add_handler(CommandHandler("Hi", Hi))
+    app.add_handler(CommandHandler("transport", transport))
+    app.add_handler(CommandHandler("places", places))
+    app.add_handler(CommandHandler("cafe", cafe))
+    app.add_handler(CommandHandler("park", park))
+    app.add_handler(CommandHandler("raw_list", raw_game_names))
+
+    app.add_handler(CommandHandler("chatgpt", chatgpt))
+
+    app.add_handler(CommandHandler("cs2", cs2))
+    app.add_handler(CommandHandler("half_life", half_life))
+    app.add_handler(CommandHandler("tetris", tetris))
+    app.add_handler(CommandHandler("starcraft2", starcraft2))
+    app.add_handler(CommandHandler("doom_eternal", doom_eternal))
+    app.add_handler(CommandHandler("hollowknight", hollowknight))
+    app.add_handler(CommandHandler("celeste", celeste))
+    app.add_handler(CommandHandler("ori", ori))
+    app.add_handler(CommandHandler("shovel_knight", shovel_knight))
+    app.add_handler(CommandHandler("gd", gd))
+    app.add_handler(CommandHandler("witcher3", witcher3))
+    app.add_handler(CommandHandler("cyberpunk2077", cyberpunk2077))
+    app.add_handler(CommandHandler("eldenring", eldenring))
+    app.add_handler(CommandHandler("balders_gate3", balders_gate3))
+    app.add_handler(CommandHandler("skyrim", skyrim))
+    app.add_handler(CommandHandler("mass_effect", mass_effect))
+    app.add_handler(CommandHandler("final_fantasy16", final_fantasy16))
+    app.add_handler(CommandHandler("diablo4", diablo4))
+    app.add_handler(CommandHandler("pathofexile", pathofexile))
+    app.add_handler(CommandHandler("genshin_impact", genshin_impact))
+    app.add_handler(CommandHandler("gta5", gta5))
+    app.add_handler(CommandHandler("reddead2", reddead2))
+    app.add_handler(CommandHandler("godofwar", godofwar))
+    app.add_handler(CommandHandler("spiderman2", spiderman2))
+    app.add_handler(CommandHandler("lastofus", lastofus))
+    app.add_handler(CommandHandler("uncharted4", uncharted4))
+    app.add_handler(CommandHandler("horizon_zero_dawn", horizon_zero_dawn))
+    app.add_handler(CommandHandler("residentevil4", residentevil4))
+    app.add_handler(CommandHandler("silent_hill2", silent_hill2))
+    app.add_handler(CommandHandler("bioshock", bioshock))
+    app.add_handler(CommandHandler("disco_elysium", disco_elysium))
+    app.add_handler(CommandHandler("minecraft", minecraft))
+    app.add_handler(CommandHandler("terraria", terraria))
+    app.add_handler(CommandHandler("stardewvalley", stardewvalley))
+    app.add_handler(CommandHandler("factorio", factorio))
+    app.add_handler(CommandHandler("subnautica", subnautica))
+    app.add_handler(CommandHandler("animal_crossing", animal_crossing))
+    app.add_handler(CommandHandler("overwatch2", overwatch2))
+    app.add_handler(CommandHandler("apex_legends", apex_legends))
+    app.add_handler(CommandHandler("valorant", valorant))
+    app.add_handler(CommandHandler("fortnite", fortnite))
+    app.add_handler(CommandHandler("destiny2", destiny2))
+    app.add_handler(CommandHandler("leagueoflegends", leagueoflegends))
+    app.add_handler(CommandHandler("dota2", dota2))
+    app.add_handler(CommandHandler("fifa25", fifa25))
+    app.add_handler(CommandHandler("nba2k25", nba2k25))
+    app.add_handler(CommandHandler("roblox", roblox))
+    app.add_handler(CommandHandler("portal", portal))
+    app.add_handler(CommandHandler("portal2", portal2))
+    app.add_handler(CommandHandler("legolego", legolego))
+
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text_buttons))
+
+    app.run_polling()
