@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Plastic Tool — Давид</title>
+<style>
+:root{--bg:#0e1116;--surface:#171c24;--line:#262d38;--text:#eef1f5;--muted:#8b95a5;--accent:#4cc2ff;--accent-2:#7b8cff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:radial-gradient(700px 460px at 12% 6%,rgba(76,194,255,.12),transparent 70%),radial-gradient(600px 460px at 92% 94%,rgba(123,140,255,.10),transparent 70%),var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.55}
+a{color:inherit}
+.wrap{width:100%;max-width:1120px;margin:0 auto;padding:32px 20px 64px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:28px}
+.back{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--muted);font-size:.95rem;border:1px solid var(--line);padding:8px 14px;border-radius:999px;transition:.2s}
+.back:hover{color:var(--text);border-color:var(--accent)}
+.grade{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:.9rem;color:#0e1116;background:linear-gradient(135deg,var(--accent),var(--accent-2));padding:7px 14px;border-radius:999px}
+.cat{color:var(--accent);font-size:.86rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin:0 0 8px}
+h1{font-size:clamp(2rem,5.5vw,3.2rem);line-height:1.08;letter-spacing:-.02em;margin:0 0 10px}
+.meta{color:var(--muted);font-size:.95rem;margin:0 0 26px}
+.media{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#0b0f14;display:block}
+.media img,.media video{display:block;width:100%;height:auto}
+.media iframe{display:block;width:100%;height:min(78vh,760px);border:0;background:#fff}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.gallery a{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#0b0f14}
+.gallery img{display:block;width:100%;height:100%;object-fit:cover;aspect-ratio:16/10;transition:transform .3s}
+.gallery a:hover img{transform:scale(1.03)}
+.section{margin-top:34px}
+h2{font-size:1.15rem;margin:0 0 8px;letter-spacing:-.01em}
+.section p{margin:0;color:#c8d0dc}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:30px}
+.cols>div{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+blockquote{margin:26px 0 0;padding:18px 22px;border-left:3px solid var(--accent);background:rgba(76,194,255,.07);border-radius:0 14px 14px 0;color:#cfe6f7;font-style:italic}
+blockquote cite{display:block;margin-top:8px;font-style:normal;font-size:.85rem;color:var(--muted)}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;padding:12px 20px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--text);transition:.2s}
+.btn:hover{border-color:var(--accent);transform:translateY(-2px)}
+.btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#0e1116;border:none}
+.filelist{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.file{display:inline-flex;align-items:center;gap:8px;font-size:.9rem;color:var(--muted);border:1px dashed var(--line);padding:8px 13px;border-radius:10px;text-decoration:none}
+.file:hover{color:var(--text);border-color:var(--accent)}
+.dl{display:flex;align-items:center;gap:18px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:26px}
+.dl .ic{width:64px;height:64px;flex:none;border-radius:16px;display:grid;place-items:center;font-size:1.8rem;background:rgba(76,194,255,.12)}
+.dl strong{display:block;font-size:1.05rem}
+.dl span{color:var(--muted);font-size:.9rem}
+pre{background:#0b0f14;border:1px solid var(--line);border-radius:16px;padding:18px;overflow:auto;max-height:70vh;font-size:.86rem;line-height:1.5}
+code{font-family:ui-monospace,'Cascadia Code',Consolas,monospace}
+footer{margin-top:48px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer a{color:var(--muted);text-decoration:none;border-bottom:1px solid transparent}
+footer a:hover{color:var(--text);border-color:var(--accent)}
+@media(max-width:640px){.cols{grid-template-columns:1fr}.wrap{padding:22px 16px 48px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="back" href="../index.html">← Все работы</a>
+    <span class="grade">★ 12/12</span>
+  </div>
+  <main>
+    <p class="cat">Анимация · Анімація та мультиплікація</p>
+    <h1>Plastic Tool</h1>
+    <p class="meta">Сдано 1 апреля 2026 · —</p>
+    <video class="media" controls playsinline preload="metadata" src="animation.mp4"></video>
+    <div class="cols">
+      <div><h2>Задача</h2><p>Использование инструмента Plastic в анимации.</p></div>
+      <div><h2>Что сделано</h2><p>Разобрался с Plastic Tool и собрал анимацию персонажей, настроил движение и тайминг.</p></div>
+    </div>
+    <blockquote>Давиде, я бачу, що ви розібралися з Plastic Tool та впоралися на відмінно!<cite>— преподаватель —</cite></blockquote>
+    <div class="actions">
+      <a class="btn primary" href="../index.html">Все работы</a>
+      
+    </div>
+    <div class="filelist"><a class="file" href="animation.mp4" download>⬇ Анимация (MP4)</a></div>
+  </main>
+  <footer>
+    <span>Давид Сосновский · портфолио IT STEP</span>
+    <a href="https://github.com/vilkatanos456-commits" target="_blank" rel="noopener">GitHub ↗</a>
+  </footer>
+</div>
+</body>
+</html>
