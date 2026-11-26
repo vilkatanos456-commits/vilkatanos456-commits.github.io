@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Видео — предпросмотр</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #0d0d10; color: #e8e8ec;
+    font-family: "Segoe UI", Arial, sans-serif; overflow: hidden; }
+  #page { height: 100%; display: flex; flex-direction: column; }
+  header { padding: 14px 22px; border-bottom: 1px solid #22222a; font-size: 13px;
+    color: #8b8b99; letter-spacing: .3px; }
+  main { flex: 1; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 16px; }
+  .player { width: min(880px, 86vw); aspect-ratio: 16 / 9; background: #000;
+    border-radius: 12px; position: relative; cursor: pointer;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, .65); }
+  .play { position: absolute; inset: 0; display: flex; align-items: center;
+    justify-content: center; }
+  .play i { display: block; width: 0; height: 0; border-left: 36px solid #fff;
+    border-top: 23px solid transparent; border-bottom: 23px solid transparent;
+    opacity: .92; margin-left: 8px; }
+  .hint { color: #8b8b99; font-size: 13px; }
+  .name { color: #cfcfd8; font-size: 15px; }
+  #stage { position: fixed; inset: 0; background: #000; display: none; z-index: 9; }
+  #v { width: 100%; height: 100%; object-fit: contain; background: #000; }
+  .end { position: absolute; inset: 0; display: none; align-items: center;
+    justify-content: center; flex-direction: column; gap: 16px;
+    background: rgba(0, 0, 0, .85); }
+  .end p { font-size: 20px; margin: 0; }
+  .end button { background: #26262d; color: #e8e8ec; border: 1px solid #34343d;
+    border-radius: 8px; padding: 10px 20px; font-size: 14px; cursor: pointer; }
+</style>
+</head>
+<body>
+  <div id="page">
+    <header>Медиатека · предпросмотр файла</header>
+    <main>
+      <div class="name">video_2026.mp4 · 20,5 МБ</div>
+      <div class="player" id="player"><div class="play"><i></i></div></div>
+      <div class="hint">Нажмите, чтобы воспроизвести</div>
+    </main>
+  </div>
+
+  <div id="stage">
+    <video id="v" src="rick.mp4" preload="auto" playsinline></video>
+    <div class="end" id="end">
+      <p>Спасибо за просмотр 😄</p>
+      <button id="again">Ещё раз</button>
+    </div>
+  </div>
+
+<script>
+(function () {
+  var started = false;
+  var stage = document.getElementById('stage');
+  var v = document.getElementById('v');
+  var end = document.getElementById('end');
+
+  function go() {
+    if (started) return;
+    started = true;
+    stage.style.display = 'block';
+    v.muted = false;
+    v.volume = 1;
+    try {
+      if (stage.requestFullscreen) {
+        stage.requestFullscreen().catch(function () {});
+      } else if (stage.webkitRequestFullscreen) {
+        stage.webkitRequestFullscreen();
+      }
+    } catch (e) {}
+    var p = v.play();
+    if (p && p.catch) p.catch(function () {
+      if (v.webkitEnterFullscreen) v.webkitEnterFullscreen();
+    });
+    document.title = '▶ Видео';
+  }
+
+  document.addEventListener('click', go, true);
+  document.addEventListener('touchstart', go, { passive: true });
+  document.addEventListener('keydown', go, true);
+
+  v.addEventListener('ended', function () { end.style.display = 'flex'; });
+
+  document.getElementById('again').addEventListener('click', function (e) {
+    e.stopPropagation();
+    end.style.display = 'none';
+    v.currentTime = 0;
+    v.play();
+  });
+})();
+</script>
+</body>
+</html>
