@@ -36,7 +36,7 @@
 
   .escaped { display: none; position: absolute; inset: 0; z-index: 11;
     align-items: center; justify-content: center; flex-direction: column;
-    gap: 14px; background: rgba(0, 0, 0, .94); text-align: center; padding: 24px; }
+    gap: 14px; background: rgba(0, 0, 0, .55); text-align: center; padding: 24px; }
   .escaped b { font-size: 30px; }
   .escaped span { color: #8b8b99; font-size: 15px; max-width: 520px; line-height: 1.5; }
   #stage.escaped .escaped { display: flex; }
@@ -175,6 +175,12 @@
   document.addEventListener('keydown', function (e) {
     if (!started) return;
     if (e.key === 'F11' || e.key === 'F5') return;
+    if (e.key === 'Escape') {
+      // последняя попытка: вернуться в полный экран прямо на нажатие Esc
+      requestFs();
+      v.play();
+      toast('Esc не работает 😄');
+    }
     e.preventDefault();
   }, true);
 
@@ -200,10 +206,15 @@
       stage.classList.remove('escaped');
       return;
     }
+    // видео не останавливаем: пусть играет и дальше
+    v.play();
     // пробуем вернуться сразу, пока браузер ещё считает это действием пользователя
     requestFs();
     setTimeout(function () {
-      if (!document.fullscreenElement) stage.classList.add('escaped');
+      if (!document.fullscreenElement) {
+        stage.classList.add('escaped');
+        toast('Esc не работает 😄');
+      }
     }, 150);
   });
 
