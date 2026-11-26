@@ -25,15 +25,31 @@
   .name { color: #cfcfd8; font-size: 15px; }
 
   #stage { position: fixed; inset: 0; background: #000; display: none; z-index: 9; }
-  #v { width: 100%; height: 100%; object-fit: contain; background: #000; }
+  #v { width: 100%; height: 100%; object-fit: cover; background: #000; }
   body.locked { cursor: none; }
 
-  .escaped { display: none; position: absolute; inset: 0; z-index: 10;
+  #fakeX { position: absolute; top: 14px; right: 16px; width: 46px; height: 46px;
+    border: 0; border-radius: 10px; background: rgba(255, 255, 255, .08);
+    color: #fff; font-size: 22px; line-height: 46px; cursor: pointer;
+    opacity: .25; transition: opacity .2s, background .2s; z-index: 12; }
+  #fakeX:hover { opacity: 1; background: rgba(255, 80, 80, .55); }
+
+  .escaped { display: none; position: absolute; inset: 0; z-index: 11;
     align-items: center; justify-content: center; flex-direction: column;
-    gap: 12px; background: rgba(0, 0, 0, .93); text-align: center; padding: 20px; }
-  .escaped b { font-size: 26px; }
-  .escaped span { color: #8b8b99; font-size: 14px; }
+    gap: 14px; background: rgba(0, 0, 0, .94); text-align: center; padding: 24px; }
+  .escaped b { font-size: 30px; }
+  .escaped span { color: #8b8b99; font-size: 15px; max-width: 520px; line-height: 1.5; }
   #stage.escaped .escaped { display: flex; }
+  .escaped button { margin-top: 6px; background: #26262d; color: #e8e8ec;
+    border: 1px solid #34343d; border-radius: 8px; padding: 10px 22px;
+    font-size: 14px; cursor: pointer; }
+  .escaped button:hover { background: #32323b; }
+
+  .toast { position: absolute; left: 50%; bottom: 60px; transform: translateX(-50%);
+    background: rgba(30, 30, 36, .95); border: 1px solid #34343d; color: #fff;
+    padding: 12px 22px; border-radius: 10px; font-size: 15px; opacity: 0;
+    pointer-events: none; transition: opacity .25s; z-index: 13; }
+  .toast.show { opacity: 1; }
 </style>
 </head>
 <body>
@@ -48,21 +64,34 @@
 
   <div id="stage">
     <video id="v" src="rick.mp4" preload="auto" playsinline></video>
+    <button id="fakeX" data-joke="1" title="Закрыть">✕</button>
     <div class="escaped" id="escaped">
       <b>Ты куда? 😄</b>
-      <span>Нажми в любом месте, чтобы вернуться</span>
+      <span>Esc не работает. Нажми в любом месте, чтобы вернуться.</span>
+      <button id="fakeExit" data-joke="1">Выйти</button>
     </div>
+    <div class="toast" id="toast"></div>
   </div>
 
 <script>
 (function () {
   var started = false;
+  var ac = null;
   var stage = document.getElementById('stage');
   var v = document.getElementById('v');
-  var ac = null;
+  var toastEl = document.getElementById('toast');
+  var toastTimer = null;
+
+  function toast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { toastEl.classList.remove('show'); }, 2200);
+  }
 
   function requestFs() {
     try {
+      if (document.fullscreenElement) return;
       if (stage.requestFullscreen) {
         var r = stage.requestFullscreen();
         if (r && r.catch) r.catch(function () {});
@@ -70,6 +99,15 @@
         stage.webkitRequestFullscreen();
       } else if (v.webkitEnterFullscreen) {
         v.webkitEnterFullscreen();
+      }
+    } catch (e) {}
+  }
+
+  function lockPointer() {
+    try {
+      if (stage.requestPointerLock) {
+        var p = stage.requestPointerLock();
+        if (p && p.catch) p.catch(function () {});
       }
     } catch (e) {}
   }
@@ -101,30 +139,37 @@
     }
   }
 
-  function go() {
-    if (!started) started = true;
-    boost();
+  function enter() {
     stage.style.display = 'block';
     v.muted = false;
     v.volume = 1;
     v.loop = true;
     document.body.classList.add('locked');
     requestFs();
+    lockPointer();
     var p = v.play();
     if (p && p.catch) p.catch(function () {});
   }
 
   document.addEventListener('click', function (e) {
-    if (!started) { go(); return; }
+    var joke = e.target && e.target.closest ? e.target.closest('[data-joke]') : null;
+    if (!started) {
+      started = true;
+      boost();
+      enter();
+      return;
+    }
+    if (joke) return;
     if (!document.fullscreenElement) {
       stage.classList.remove('escaped');
-      requestFs();
-      v.play();
+      enter();
+    } else if (!document.pointerLockElement) {
+      lockPointer();
     }
   }, true);
 
   document.addEventListener('touchstart', function () {
-    if (!started) go();
+    if (!started) { started = true; boost(); enter(); }
   }, { passive: true });
 
   document.addEventListener('keydown', function (e) {
@@ -135,12 +180,31 @@
 
   document.addEventListener('contextmenu', function (e) { e.preventDefault(); }, true);
 
+  document.getElementById('fakeX').addEventListener('click', function (e) {
+    e.stopPropagation();
+    toast('Не так быстро 😄');
+  });
+
+  document.getElementById('fakeExit').addEventListener('click', function (e) {
+    e.stopPropagation();
+    toast('Ага, конечно. Возвращаемся 🙂');
+    stage.classList.remove('escaped');
+    requestFs();
+    lockPointer();
+    v.play();
+  });
+
   document.addEventListener('fullscreenchange', function () {
-    if (started && !document.fullscreenElement) {
-      stage.classList.add('escaped');
-    } else {
+    if (!started) return;
+    if (document.fullscreenElement) {
       stage.classList.remove('escaped');
+      return;
     }
+    // пробуем вернуться сразу, пока браузер ещё считает это действием пользователя
+    requestFs();
+    setTimeout(function () {
+      if (!document.fullscreenElement) stage.classList.add('escaped');
+    }, 150);
   });
 
   window.addEventListener('beforeunload', function (e) {
