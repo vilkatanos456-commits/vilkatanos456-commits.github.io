@@ -4,7 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<title>Давид — портфолио: 3D, игры, веб и Python</title>
+<title>Давид — Telegram-боты и Python-автоматизация</title>
+<meta name="description" content="Разработка Telegram-ботов и Python-автоматизации: приём заявок, админ-панели, уведомления, скрипты и интеграции. Портфолио Давида.">
+<meta name="theme-color" content="#0e1116">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Давид — Telegram-боты и Python-автоматизация">
+<meta property="og:description" content="Telegram-боты для бизнеса и Python-скрипты: заявки, админ-панели, уведомления, автоматизация.">
+<meta property="og:url" content="https://vilkatanos456-commits.github.io/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A4%96%3C/text%3E%3C/svg%3E">
 <style>
 :root{--bg:#0e1116;--surface:#171c24;--line:#262d38;--text:#eef1f5;--muted:#8b95a5;--accent:#4cc2ff;--accent-2:#7b8cff}
 *{box-sizing:border-box}
@@ -68,6 +75,7 @@ h2.sec{font-size:1.35rem;margin:0}
 .chip.active{background:rgba(76,194,255,.14);border-color:var(--accent);color:var(--text)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px}
 .card{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;text-decoration:none;color:var(--text);transition:transform .25s,border-color .25s,box-shadow .25s}
+.card>div{position:relative}
 .card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 16px 40px rgba(76,194,255,.10)}
 .cover{position:relative;aspect-ratio:16/10;background:#0b0f14;overflow:hidden}
 .cover img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
@@ -98,31 +106,32 @@ h2.sec{font-size:1.35rem;margin:0}
   <header class="hero">
     <div class="avatar" aria-hidden="true">Д</div>
     <div>
-      <h1>Давид</h1>
-      <p class="lead" style="margin-bottom:0">3D-графика, игры, веб и Python.</p>
+      <h1>Telegram-боты<br>и Python-автоматизация</h1>
+      <p class="lead" style="margin-bottom:0">Давид · Python-разработчик</p>
     </div>
   </header>
-  <p class="lead">Учусь в IT STEP. Здесь — лучшие работы за курсы: Blender, Unity, Unreal Engine, веб-дизайн, анимация и Python.</p>
+  <p class="lead">Разрабатываю ботов для заявок, уведомлений и админ-панелей, пишу Python-скрипты и автоматизирую рутину. Ниже — коммерческие и учебные проекты.</p>
   <ul class="tags">
-    <li>Python</li><li>Telegram-боты</li><li>Blender</li><li>Unity</li><li>Unreal Engine</li><li>Веб-дизайн</li><li>Анимация</li>
+    <li>Python</li><li>aiogram 3</li><li>Telegram-боты</li><li>Автоматизация</li><li>API</li><li>Blender</li><li>Unity</li>
   </ul>
   <div class="actions" style="margin:0 0 30px">
-    <a class="btn primary" href="https://github.com/vilkatanos456-commits" target="_blank" rel="noopener">Мой GitHub ↗</a>
-    <a class="btn" href="#works">Смотреть работы ↓</a>
+    <a class="btn primary" href="https://t.me/penotesto" target="_blank" rel="noopener">Написать в Telegram ↗</a>
+    <a class="btn" href="#works">Смотреть проекты ↓</a>
+    <a class="btn" href="https://github.com/vilkatanos456-commits" target="_blank" rel="noopener">GitHub ↗</a>
   </div>
   <div class="stats">
     <div class="stat"><b>16</b><span>проектов в портфолио</span></div>
-    <div class="stat"><b>12/12</b><span>оценка у каждой работы</span></div>
+    <div class="stat"><b>4</b><span>Telegram-бота</span></div>
     <div class="stat"><b>7</b><span>направлений</span></div>
   </div>
 
   <div class="bar">
-    <h2 class="sec" id="works">Работы</h2>
-    <div class="filters"><button class="chip active" data-cat="Все">Все</button><button class="chip" data-cat="3D">3D</button><button class="chip" data-cat="Игры">Игры</button><button class="chip" data-cat="Веб">Веб</button><button class="chip" data-cat="Python">Python</button><button class="chip" data-cat="Дизайн">Дизайн</button><button class="chip" data-cat="Звук">Звук</button><button class="chip" data-cat="Анимация">Анимация</button></div>
+    <h2 class="sec" id="works">Telegram-боты и Python</h2>
+    <div class="filters"><button class="chip active" data-cat="Все">Все</button><button class="chip" data-cat="Python">Python</button><button class="chip" data-cat="3D">3D</button><button class="chip" data-cat="Игры">Игры</button><button class="chip" data-cat="Веб">Веб</button><button class="chip" data-cat="Дизайн">Дизайн</button><button class="chip" data-cat="Звук">Звук</button><button class="chip" data-cat="Анимация">Анимация</button></div>
   </div>
   <div class="grid" id="grid">
     <a class="card" href="https://github.com/vilkatanos456-commits/School_bot" target="_blank" rel="noopener" data-cat="Python">
-  <div class=""><div class="cover cover--art" style="background:linear-gradient(135deg,#4cc2ff,#7b8cff)"><span>🎓</span></div><span class="mark">NEW</span><span class="tag">Python</span></div>
+  <div class=""><div class="cover cover--art" style="background:linear-gradient(135deg,#4cc2ff,#7b8cff)"><span>🎓</span></div><span class="mark">Gemini</span><span class="tag">Python</span></div>
   <div class="card-body">
     <h3>School Homework Bot</h3>
     <p class="sub">Python · Telegram · Gemini</p>
@@ -131,7 +140,7 @@ h2.sec{font-size:1.35rem;margin:0}
     <span class="more">Открыть на GitHub →</span>
   </div>
 </a><a class="card" href="https://github.com/vilkatanos456-commits/telegram-requests-bot" target="_blank" rel="noopener" data-cat="Python">
-  <div class=""><div class="cover cover--art" style="background:linear-gradient(135deg,#34d399,#4cc2ff)"><span>📝</span></div><span class="mark">NEW</span><span class="tag">Python</span></div>
+  <div class=""><div class="cover cover--art" style="background:linear-gradient(135deg,#34d399,#4cc2ff)"><span>📝</span></div><span class="mark">aiogram 3</span><span class="tag">Python</span></div>
   <div class="card-body">
     <h3>Приём заявок для бизнеса</h3>
     <p class="sub">aiogram 3 · FSM · JSON</p>
@@ -140,7 +149,7 @@ h2.sec{font-size:1.35rem;margin:0}
     <span class="more">Открыть на GitHub →</span>
   </div>
 </a><a class="card" href="https://github.com/vilkatanos456-commits/beee" target="_blank" rel="noopener" data-cat="Python">
-  <div class=""><div class="cover cover--art" style="background:linear-gradient(135deg,#f472b6,#7b8cff)"><span>🎮</span></div><span class="mark">NEW</span><span class="tag">Python</span></div>
+  <div class=""><div class="cover cover--art" style="background:linear-gradient(135deg,#f472b6,#7b8cff)"><span>🎮</span></div><span class="mark">Gemini</span><span class="tag">Python</span></div>
   <div class="card-body">
     <h3>Roblox Rare Username Bot</h3>
     <p class="sub">Python · Gemini · Proxy</p>
@@ -149,7 +158,7 @@ h2.sec{font-size:1.35rem;margin:0}
     <span class="more">Открыть на GitHub →</span>
   </div>
 </a><a class="card" href="works/python-bot/index.html" data-cat="Python">
-  <div class=""><div class="cover cover--art" style="background:linear-gradient(135deg,#facc15,#34d399)"><span>🐍</span></div><span class="mark">★ 12</span><span class="tag">Python</span></div>
+  <div class=""><div class="cover cover--art" style="background:linear-gradient(135deg,#facc15,#34d399)"><span>🐍</span></div><span class="mark">50+ команд</span><span class="tag">Python</span></div>
   <div class="card-body">
     <h3>Гид по Виннице</h3>
     <p class="sub">Python Lab</p>
@@ -157,8 +166,15 @@ h2.sec{font-size:1.35rem;margin:0}
     <div class="chips"><span>Python</span><span>Telegram Bot</span><span>python-telegram-bot</span></div>
     <span class="more">Смотреть работу →</span>
   </div>
-</a><a class="card" href="works/lighthouse/index.html" data-cat="3D">
-  <div class="cover"><img src="works/lighthouse/render.jpg" alt="Маяк" loading="lazy"><span class="mark">★ 12</span><span class="tag">3D</span></div>
+</a>
+  </div>
+
+  <div class="section" id="other">
+    <h2 class="sec">Другие работы</h2>
+    <p style="margin:0 0 14px;color:var(--muted)">3D, игры, веб, дизайн, звук и анимация — учебные проекты IT STEP.</p>
+    <div class="grid" id="grid-other">
+    <a class="card" href="works/lighthouse/index.html" data-cat="3D">
+  <div class="cover"><img src="works/lighthouse/render.jpg" alt="Маяк" loading="lazy"><span class="mark">3D-сцена</span><span class="tag">3D</span></div>
   <div class="card-body">
     <h3>Маяк</h3>
     <p class="sub">Blender Pro</p>
@@ -167,7 +183,7 @@ h2.sec{font-size:1.35rem;margin:0}
     <span class="more">Смотреть работу →</span>
   </div>
 </a><a class="card" href="works/microdistrict/index.html" data-cat="3D">
-  <div class="cover"><img src="works/microdistrict/render.jpg" alt="Микрорайон" loading="lazy"><span class="mark">★ 12</span><span class="tag">3D</span></div>
+  <div class="cover"><img src="works/microdistrict/render.jpg" alt="Микрорайон" loading="lazy"><span class="mark">3D-квартал</span><span class="tag">3D</span></div>
   <div class="card-body">
     <h3>Микрорайон</h3>
     <p class="sub">Blender Pro</p>
@@ -176,7 +192,7 @@ h2.sec{font-size:1.35rem;margin:0}
     <span class="more">Смотреть работу →</span>
   </div>
 </a><a class="card" href="works/drone/index.html" data-cat="3D">
-  <div class="cover"><img src="works/drone/render.jpg" alt="Дрон" loading="lazy"><span class="mark">★ 12</span><span class="tag">3D</span></div>
+  <div class="cover"><img src="works/drone/render.jpg" alt="Дрон" loading="lazy"><span class="mark">Hard-surface</span><span class="tag">3D</span></div>
   <div class="card-body">
     <h3>Дрон</h3>
     <p class="sub">Blender Pro</p>
@@ -185,7 +201,7 @@ h2.sec{font-size:1.35rem;margin:0}
     <span class="more">Смотреть работу →</span>
   </div>
 </a><a class="card" href="works/blender-intro/index.html" data-cat="3D">
-  <div class="cover"><img src="works/blender-intro/shot-1.jpg" alt="Первая 3D-сцена" loading="lazy"><span class="mark">★ 12</span><span class="tag">3D</span></div>
+  <div class="cover"><img src="works/blender-intro/shot-1.jpg" alt="Первая 3D-сцена" loading="lazy"><span class="mark">Blender</span><span class="tag">3D</span></div>
   <div class="card-body">
     <h3>Первая 3D-сцена</h3>
     <p class="sub">Blender Pro</p>
@@ -194,7 +210,7 @@ h2.sec{font-size:1.35rem;margin:0}
     <span class="more">Смотреть работу →</span>
   </div>
 </a><a class="card" href="works/egghead-gallery/index.html" data-cat="Игры">
-  <div class=""><div class="cover cover--art" style="background:linear-gradient(135deg,#8b5cf6,#4cc2ff)"><span>🎯</span></div><span class="mark">★ 12</span><span class="tag">Игры</span></div>
+  <div class=""><div class="cover cover--art" style="background:linear-gradient(135deg,#8b5cf6,#4cc2ff)"><span>🎯</span></div><span class="mark">Unity · C#</span><span class="tag">Игры</span></div>
   <div class="card-body">
     <h3>Egghead Gallery</h3>
     <p class="sub">AI-геймплей · Unity</p>
@@ -203,7 +219,7 @@ h2.sec{font-size:1.35rem;margin:0}
     <span class="more">Смотреть работу →</span>
   </div>
 </a><a class="card" href="works/unity-arena/index.html" data-cat="Игры">
-  <div class=""><div class="cover cover--art" style="background:linear-gradient(135deg,#8b5cf6,#4cc2ff)"><span>🏟️</span></div><span class="mark">★ 12</span><span class="tag">Игры</span></div>
+  <div class=""><div class="cover cover--art" style="background:linear-gradient(135deg,#8b5cf6,#4cc2ff)"><span>🏟️</span></div><span class="mark">Level design</span><span class="tag">Игры</span></div>
   <div class="card-body">
     <h3>Арена 3D-шутера</h3>
     <p class="sub">AI-геймплей · Unity</p>
@@ -212,7 +228,7 @@ h2.sec{font-size:1.35rem;margin:0}
     <span class="more">Смотреть работу →</span>
   </div>
 </a><a class="card" href="works/unity-topdown/index.html" data-cat="Игры">
-  <div class=""><div class="cover cover--art" style="background:linear-gradient(135deg,#8b5cf6,#4cc2ff)"><span>🎮</span></div><span class="mark">★ 12</span><span class="tag">Игры</span></div>
+  <div class=""><div class="cover cover--art" style="background:linear-gradient(135deg,#8b5cf6,#4cc2ff)"><span>🎮</span></div><span class="mark">Unity · C#</span><span class="tag">Игры</span></div>
   <div class="card-body">
     <h3>Top-down шутер</h3>
     <p class="sub">AI-геймплей · Unity</p>
@@ -221,7 +237,7 @@ h2.sec{font-size:1.35rem;margin:0}
     <span class="more">Смотреть работу →</span>
   </div>
 </a><a class="card" href="works/unreal-blueprints/index.html" data-cat="Игры">
-  <div class=""><div class="cover cover--art" style="background:linear-gradient(135deg,#8b5cf6,#4cc2ff)"><span>🕹️</span></div><span class="mark">★ 12</span><span class="tag">Игры</span></div>
+  <div class=""><div class="cover cover--art" style="background:linear-gradient(135deg,#8b5cf6,#4cc2ff)"><span>🕹️</span></div><span class="mark">Unreal</span><span class="tag">Игры</span></div>
   <div class="card-body">
     <h3>Blueprints: первая игра</h3>
     <p class="sub">Unreal Engine 4</p>
@@ -230,7 +246,7 @@ h2.sec{font-size:1.35rem;margin:0}
     <span class="more">Смотреть работу →</span>
   </div>
 </a><a class="card" href="works/web-ai-3d/index.html" data-cat="Веб">
-  <div class=""><div class="cover cover--art" style="background:linear-gradient(135deg,#22d3ee,#34d399)"><span>🌐</span></div><span class="mark">★ 12</span><span class="tag">Веб</span></div>
+  <div class=""><div class="cover cover--art" style="background:linear-gradient(135deg,#22d3ee,#34d399)"><span>🌐</span></div><span class="mark">Web + AI</span><span class="tag">Веб</span></div>
   <div class="card-body">
     <h3>AI + 3D</h3>
     <p class="sub">Веб-дизайн</p>
@@ -239,7 +255,7 @@ h2.sec{font-size:1.35rem;margin:0}
     <span class="more">Смотреть работу →</span>
   </div>
 </a><a class="card" href="works/animation-plastic/index.html" data-cat="Анимация">
-  <div class="cover"><img src="works/animation-plastic/poster.jpg" alt="Plastic Tool" loading="lazy"><span class="mark">★ 12</span><span class="tag">Анимация</span></div>
+  <div class="cover"><img src="works/animation-plastic/poster.jpg" alt="Plastic Tool" loading="lazy"><span class="mark">3D-анимация</span><span class="tag">Анимация</span></div>
   <div class="card-body">
     <h3>Plastic Tool</h3>
     <p class="sub">Анімація та мультиплікація</p>
@@ -248,7 +264,7 @@ h2.sec{font-size:1.35rem;margin:0}
     <span class="more">Смотреть работу →</span>
   </div>
 </a><a class="card" href="works/concept-art/index.html" data-cat="Дизайн">
-  <div class=""><div class="cover cover--art" style="background:linear-gradient(135deg,#fb7185,#a78bfa)"><span>🎨</span></div><span class="mark">★ 12</span><span class="tag">Дизайн</span></div>
+  <div class=""><div class="cover cover--art" style="background:linear-gradient(135deg,#fb7185,#a78bfa)"><span>🎨</span></div><span class="mark">Concept art</span><span class="tag">Дизайн</span></div>
   <div class="card-body">
     <h3>Концепты персонажей</h3>
     <p class="sub">VideoLab</p>
@@ -257,7 +273,7 @@ h2.sec{font-size:1.35rem;margin:0}
     <span class="more">Смотреть работу →</span>
   </div>
 </a><a class="card" href="works/sound-design/index.html" data-cat="Звук">
-  <div class=""><div class="cover cover--art" style="background:linear-gradient(135deg,#fb923c,#f43f5e)"><span>🎧</span></div><span class="mark">★ 12</span><span class="tag">Звук</span></div>
+  <div class=""><div class="cover cover--art" style="background:linear-gradient(135deg,#fb923c,#f43f5e)"><span>🎧</span></div><span class="mark">Sound design</span><span class="tag">Звук</span></div>
   <div class="card-body">
     <h3>Работа со звуком</h3>
     <p class="sub">VideoLab</p>
@@ -266,40 +282,52 @@ h2.sec{font-size:1.35rem;margin:0}
     <span class="more">Смотреть работу →</span>
   </div>
 </a>
+    </div>
   </div>
   <p class="empty" id="empty">В этой категории пока нет работ.</p>
 
   <div class="section">
     <h2 class="sec">Код на GitHub</h2>
-    <p style="margin:0 0 6px;color:var(--muted)">Лучшие проекты сверху. Полный список — <a href="https://github.com/vilkatanos456-commits" target="_blank" rel="noopener" style="color:var(--accent)">github.com/vilkatanos456-commits ↗</a></p>
+    <p style="margin:0 0 6px;color:var(--muted)">Ключевые репозитории. Полный список — <a href="https://github.com/vilkatanos456-commits" target="_blank" rel="noopener" style="color:var(--accent)">github.com/vilkatanos456-commits ↗</a></p>
     <div class="repos">
-      <a class="repo" href="https://github.com/vilkatanos456-commits/School_bot" target="_blank" rel="noopener"><div><b>School_bot</b><span>Python · Telegram-бот на Gemini</span></div><div>↗</div></a>
-      <a class="repo" href="https://github.com/vilkatanos456-commits/telegram-requests-bot" target="_blank" rel="noopener"><div><b>telegram-requests-bot</b><span>Python · aiogram 3, FSM, JSON</span></div><div>↗</div></a>
-      <a class="repo" href="https://github.com/vilkatanos456-commits/beee" target="_blank" rel="noopener"><div><b>beee</b><span>Python · Roblox username bot</span></div><div>↗</div></a>
-      <a class="repo" href="https://github.com/vilkatanos456-commits/blender-portfolio" target="_blank" rel="noopener"><div><b>blender-portfolio</b><span>3D-рендеры Blender</span></div><div>↗</div></a>
+      <a class="repo" href="https://github.com/vilkatanos456-commits/telegram-requests-bot" target="_blank" rel="noopener"><div><b>telegram-requests-bot</b><span>Приём заявок: кнопки, анкета, /admin</span></div><div>↗</div></a>
+      <a class="repo" href="https://github.com/vilkatanos456-commits/School_bot" target="_blank" rel="noopener"><div><b>School_bot</b><span>Учёба: Gemini, поиск по PDF, домашка</span></div><div>↗</div></a>
     </div>
   </div>
 
   <footer>
-    <span>Давид Сосновский · портфолио IT STEP</span>
-    <a href="https://github.com/vilkatanos456-commits/vilkatanos456-commits.github.io" target="_blank" rel="noopener">Исходники сайта ↗</a>
+    <span>Давид Сосновский · Telegram-боты и Python</span>
+    <span style="display:flex;gap:16px;flex-wrap:wrap">
+      <a href="https://t.me/penotesto" target="_blank" rel="noopener">Telegram @penotesto ↗</a>
+      <a href="https://github.com/vilkatanos456-commits/vilkatanos456-commits.github.io" target="_blank" rel="noopener">Исходники сайта ↗</a>
+    </span>
   </footer>
 </div>
 <script>
 const chips = document.querySelectorAll('.chip');
-const cards = document.querySelectorAll('.card');
+const pythonGrid = document.getElementById('grid');
+const otherGrid = document.getElementById('grid-other');
+const otherSection = document.getElementById('other');
+const worksTitle = document.getElementById('works');
 const empty = document.getElementById('empty');
 chips.forEach(ch => ch.addEventListener('click', () => {
   chips.forEach(c => c.classList.remove('active'));
   ch.classList.add('active');
   const cat = ch.dataset.cat;
-  let shown = 0;
-  cards.forEach(cd => {
+  let shownPython = 0, shownOther = 0;
+  pythonGrid.querySelectorAll('.card').forEach(cd => {
     const ok = cat === 'Все' || cd.dataset.cat === cat;
     cd.style.display = ok ? '' : 'none';
-    if (ok) shown++;
+    if (ok) shownPython++;
   });
-  empty.style.display = shown ? 'none' : 'block';
+  otherGrid.querySelectorAll('.card').forEach(cd => {
+    const ok = cat === 'Все' || cd.dataset.cat === cat;
+    cd.style.display = ok ? '' : 'none';
+    if (ok) shownOther++;
+  });
+  worksTitle.style.display = shownPython ? '' : 'none';
+  otherSection.style.display = shownOther ? '' : 'none';
+  empty.style.display = (shownPython + shownOther) ? 'none' : 'block';
 }));
 </script>
 </body>
